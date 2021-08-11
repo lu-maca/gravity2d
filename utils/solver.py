@@ -12,7 +12,7 @@ class Simulation:
         self.dt = 0.1
         self.count = 0
         self.t = 0
-        self.tfin = 100
+        self.tfin = 400
         self.integrator = 'EC'
         self.isSimRunning = True
         self.particleList = []
@@ -28,10 +28,15 @@ class Simulation:
     def initializeParticle(self):
         n = ptc.Particle(300,0,vec.Vector2D(1000,0),vec.Vector2D(0,100),vec.Vector2D(0,0))
         m = ptc.Particle(1500000,0,vec.Vector2D(0,0),vec.Vector2D(0,0),vec.Vector2D(0,0))
-        #q = ptc.Particle(1500,0,vec.Vector2D(-200,0),vec.Vector2D(0,20),vec.Vector2D(0,0))
+        q = ptc.Particle(500,0,vec.Vector2D(1500,0),vec.Vector2D(0,90),vec.Vector2D(0,0))
+        p = ptc.Particle(700,0,vec.Vector2D(2000,0),vec.Vector2D(0,90),vec.Vector2D(0,0))
+        f = ptc.Particle(40,0,vec.Vector2D(0,300),vec.Vector2D(-170,0),vec.Vector2D(0,0))
+
         self.particleList.append(n)
         self.particleList.append(m)
-        #self.particleList.append(q)
+        self.particleList.append(q)
+        self.particleList.append(p)
+        self.particleList.append(f)
 
     def zeroAcceleration(self):
         for part in self.particleList:
@@ -43,8 +48,8 @@ class Simulation:
             for secondIdx,secondPart in enumerate(self.particleList):
                 if firstIdx < secondIdx:
                     f = force.gravityForce(firstPart.mass, secondPart.mass,firstPart.position, secondPart.position)
-                    firstPart.acceleration += f/firstPart.mass
-                    secondPart.acceleration -= f/secondPart.mass
+                    firstPart.acceleration -= f/firstPart.mass
+                    secondPart.acceleration += f/secondPart.mass
     
     def writeResults(self):
         f_pos = open('RESULTS\\POS\\' + str(self.count) + '.txt', 'x')
