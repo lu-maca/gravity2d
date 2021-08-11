@@ -5,18 +5,20 @@ from physics import particles as ptc
 from physics import forces as force
 import utils.vectors as vec
 from utils.mng_files import *
+from utils import mng_files as mngF
 from time_integration import time_integration as integr
 
 class Simulation:
     def __init__(self):
-        self.dt = 0.1
+        self.particleList = []
         self.count = 0
         self.t = 0
-        self.tfin = 400
-        self.integrator = 'EC'
         self.isSimRunning = True
-        self.particleList = []
-        self.printFreq = 10
+        self.printFreq = 1
+        self.dt = 0
+        self.tfin = 0
+        self.integrator = 'none'
+        
 
     def updateTime(self):
         self.t += self.dt
@@ -25,18 +27,9 @@ class Simulation:
     def stop(self):
         self.isSimRunning =  False
 
-    def initializeParticle(self):
-        n = ptc.Particle(300,0,vec.Vector2D(1000,0),vec.Vector2D(0,100),vec.Vector2D(0,0))
-        m = ptc.Particle(1500000,0,vec.Vector2D(0,0),vec.Vector2D(0,0),vec.Vector2D(0,0))
-        q = ptc.Particle(500,0,vec.Vector2D(1500,0),vec.Vector2D(0,90),vec.Vector2D(0,0))
-        p = ptc.Particle(700,0,vec.Vector2D(2000,0),vec.Vector2D(0,90),vec.Vector2D(0,0))
-        f = ptc.Particle(40,0,vec.Vector2D(0,300),vec.Vector2D(-170,0),vec.Vector2D(0,0))
-
-        self.particleList.append(n)
-        self.particleList.append(m)
-        self.particleList.append(q)
-        self.particleList.append(p)
-        self.particleList.append(f)
+    def initializeSimulation(self):
+        f = mngF.inputFile("config.txt")
+        f.readFile(self) 
 
     def zeroAcceleration(self):
         for part in self.particleList:
@@ -67,7 +60,7 @@ class Simulation:
 
     def run(self):
         deleteFiles()
-        Simulation.initializeParticle(self)
+        Simulation.initializeSimulation(self)
 
         integrator = integr.setIntegrator(self.integrator)
 

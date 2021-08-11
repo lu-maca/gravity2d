@@ -1,0 +1,20 @@
+$NUMERICAL_METHOD
+dt = 0.1
+tfin = 400
+integrator = EC
+printfreq = 10
+--
+$PARTICLE
+mass = 1500000
+charge = 0
+position = 0 0
+velocity = 0 0
+acceleration = 0 0
+--
+$PARTICLE
+mass = 300
+charge = 0
+position = 1000 0
+velocity = 0 100
+acceleration = 0 0
+--
