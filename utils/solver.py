@@ -28,8 +28,10 @@ class Simulation:
     def initializeParticle(self):
         n = ptc.Particle(300,0,vec.Vector2D(1000,0),vec.Vector2D(0,100),vec.Vector2D(0,0))
         m = ptc.Particle(1500000,0,vec.Vector2D(0,0),vec.Vector2D(0,0),vec.Vector2D(0,0))
+        #q = ptc.Particle(1500,0,vec.Vector2D(-200,0),vec.Vector2D(0,20),vec.Vector2D(0,0))
         self.particleList.append(n)
         self.particleList.append(m)
+        #self.particleList.append(q)
 
     def zeroAcceleration(self):
         for part in self.particleList:
@@ -61,12 +63,18 @@ class Simulation:
     def run(self):
         deleteFiles()
         Simulation.initializeParticle(self)
+
+        integrator = integr.setIntegrator(self.integrator)
+
         while self.isSimRunning:
             if (self.integrator == 'EC'):
                 Simulation.computeParticleAcceleration(self)
-                integr.EulerCromer(self.particleList, self.dt)
+                integrator.eulerCromer(self.particleList,self.dt)
             elif (self.integrator == 'Verlet'):
-                integr.velocityVerlet_firstStep(self.particleList,self.dt)
+                integrator.velocityVerlet_firstStep(self.particleList,self.dt)
+                Simulation.computeParticleAcceleration(self)
+                integrator.velocityVerlet_secondStep(self.particleList,self.dt)
+
             if self.count%self.printFreq == 0:
                 Simulation.writeResults(self)
             
