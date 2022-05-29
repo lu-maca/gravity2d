@@ -1,25 +1,25 @@
 import os
 from os import listdir
 import sys
-sys.path.append('C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity')
+sys.path.append('..')
 from physics import particles as ptc
 import utils.vectors as vec
 
 
 def deleteFiles():
-    my_path = 'C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity\\RESULTS\\POS\\'
+    my_path = 'RESULTS\\POS\\'
     for file_name in listdir(my_path):
         if file_name.endswith('.txt'):
             os.remove(my_path + file_name)
 
-    my_path = 'C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity\\RESULTS\\VEL\\'
+    my_path = 'RESULTS\\VEL\\'
     for file_name in listdir(my_path):
         if file_name.endswith('.txt'):
             os.remove(my_path + file_name)
 
 class inputFile:
     def __init__(self,filename):
-        self.dir_name = 'C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity\\' + filename
+        self.dir_name = filename
     
     def readFile(self,simulation_parameters):
         file = open(self.dir_name, 'r')
@@ -44,6 +44,8 @@ class inputFile:
                     simulation_parameters.integrator = splitted_line[2]
                 elif splitted_line[0] == 'printfreq':
                     simulation_parameters.printFreq = int(splitted_line[2])
+                elif splitted_line[0] == 'plot':
+                    simulation_parameters.show = True 
                 else: 
                     num_meth = False
                     line = file.readline()

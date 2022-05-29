@@ -1,5 +1,6 @@
 import sys
-sys.path.append('C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity')
+import pygame
+sys.path.append('..')
 
 from physics import particles as ptc
 from physics import forces as force
@@ -8,6 +9,8 @@ from utils.mng_files import *
 from utils import mng_files as mngF
 from time_integration import time_integration as integr
 
+  
+        
 class Simulation:
     def __init__(self):
         self.particleList = []
@@ -18,6 +21,7 @@ class Simulation:
         self.dt = 0
         self.tfin = 0
         self.integrator = 'none'
+        self.show = False # per mostrare grafico
         
 
     def updateTime(self):
@@ -57,6 +61,23 @@ class Simulation:
             f_vel.write(str(vel.x) +'\t' + str(vel.y) +'\n' )
         f_vel.close()
 
+    def drawResult(self):
+        x0 = 700
+        red = (200,0,0)
+        if self.count == 0:
+            self.window = pygame.display.set_mode((x0,x0))
+            for part in self.particleList:
+                pos = part.position
+                pygame.draw.circle(self.window,red,(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
+            pygame.display.update()
+            pygame.time.delay(100)
+        else:
+            self.window.fill((0,0,0))
+            for part in self.particleList:
+                pos = part.position
+                pygame.draw.circle(self.window,red,(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
+            pygame.display.update()
+            pygame.time.delay(100)
 
     def run(self):
         deleteFiles()
@@ -74,7 +95,10 @@ class Simulation:
                 integrator.velocityVerlet_secondStep(self.particleList,self.dt)
 
             if self.count%self.printFreq == 0:
-                Simulation.writeResults(self)
+                if self.show:
+                    Simulation.drawResult(self)
+                else:
+                    Simulation.writeResults(self)
             
             Simulation.updateTime(self)
 
