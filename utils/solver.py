@@ -1,6 +1,8 @@
 import sys
 import pygame
+import time
 sys.path.append('..')
+
 
 from physics import particles as ptc
 from physics import forces as force
@@ -9,8 +11,7 @@ from utils.mng_files import *
 from utils import mng_files as mngF
 from time_integration import time_integration as integr
 
-  
-        
+
 class Simulation:
     def __init__(self):
         self.particleList = []
@@ -23,7 +24,6 @@ class Simulation:
         self.integrator = 'none'
         self.show = False # per mostrare grafico
         
-
     def updateTime(self):
         self.t += self.dt
         self.count += 1
@@ -62,20 +62,20 @@ class Simulation:
         f_vel.close()
 
     def drawResult(self):
-        x0 = 700
-        red = (200,0,0)
+        x0 = 700       
         if self.count == 0:
             self.window = pygame.display.set_mode((x0,x0))
             for part in self.particleList:
                 pos = part.position
-                pygame.draw.circle(self.window,red,(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
+                pygame.draw.circle(self.window,part.getParticleColor(),(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
             pygame.display.update()
             pygame.time.delay(100)
         else:
             self.window.fill((0,0,0))
             for part in self.particleList:
-                pos = part.position
-                pygame.draw.circle(self.window,red,(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
+                pos = part.getParticlePosition()
+                mass = part.getParticleMass()
+                pygame.draw.circle(self.window,part.getParticleColor(),(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
             pygame.display.update()
             pygame.time.delay(100)
 
@@ -97,6 +97,7 @@ class Simulation:
             if self.count%self.printFreq == 0:
                 if self.show:
                     Simulation.drawResult(self)
+                    time.sleep(0.1)
                 else:
                     Simulation.writeResults(self)
             

@@ -63,9 +63,11 @@ class inputFile:
                     velocity = vec.Vector2D(float(splitted_line[2]), float(splitted_line[3]))
                 elif splitted_line[0] == 'acceleration':
                     acceleration = vec.Vector2D(float(splitted_line[2]), float(splitted_line[3]))
+                elif splitted_line[0] == 'color':
+                    color = (int(splitted_line[2]), int(splitted_line[3]), int(splitted_line[4]))
                     full = True
                 if full:
-                    simulation_parameters.particleList.append(ptc.Particle(mass,charge,position,velocity,acceleration))
+                    simulation_parameters.particleList.append(ptc.Particle(mass,charge,position,velocity,acceleration, color))
                     full = False
                     line = file.readline()
                     particle_line = False
