@@ -1,5 +1,5 @@
 import sys
-sys.path.append('C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity')
+sys.path.append('..')
 
 from utils import vectors
 from physics import forces
