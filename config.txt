@@ -1,8 +1,9 @@
 $NUMERICAL_METHOD
-dt = 0.1
-tfin = 400
+dt = 0.05
+tfin = 200
 integrator = EC
 printfreq = 10
+plot
 --
 $PARTICLE
 mass = 1500000
@@ -18,3 +19,16 @@ position = 1000 0
 velocity = 0 100
 acceleration = 0 0
 --
+$PARTICLE
+mass = 300
+charge = 0
+position = 500 0
+velocity = 0 100
+acceleration = 0 0
+--
+$PARTICLE
+mass = 300
+charge = 0
+position = 250 0
+velocity = 0 130
+acceleration = 0 0

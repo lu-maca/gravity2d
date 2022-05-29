@@ -1,9 +1,8 @@
 import sys
-sys.path.append('C:\\Users\\Luca\\Desktop\\progetti\\fisica1\\gravity')
+sys.path.append('.')
 from utils import solver
 
 def main():
-    
     sim = solver.Simulation()
     sim.run()
 
