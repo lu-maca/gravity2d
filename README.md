@@ -1,5 +1,5 @@
 # gravity2d
-Simple python code for 2d gravity problems
+Simple python code for 2d gravity problems\n
 
 # How does this work?
 Configuration file config.txt contains information about the numerical method, the run options and the problem to be solved; it should have the following structure:
