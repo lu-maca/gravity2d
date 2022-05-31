@@ -1,5 +1,5 @@
 $NUMERICAL_METHOD
-dt = 0.02
+dt = 0.01
 tfin = 100
 integrator = EC
 printfreq = 10
@@ -25,6 +25,6 @@ $PARTICLE
 mass = 300
 charge = 0
 position = 500 0
-velocity = 0 100
+velocity = 0 120
 acceleration = 0 0
 color = 0 0 200

@@ -38,6 +38,12 @@ class Simulation:
     def zeroAcceleration(self):
         for part in self.particleList:
             part.acceleration = vec.Vector2D(0,0)
+    
+    def getMaxInitDistance(self):
+        list = []
+        for i in self.particleList:
+            list.append(abs(i.getParticlePosition()))
+        return max(list)
 
     def computeParticleAcceleration(self):
         Simulation.zeroAcceleration(self)
@@ -62,12 +68,12 @@ class Simulation:
         f_vel.close()
 
     def drawResult(self):
-        x0 = 700       
         if self.count == 0:
-            self.window = pygame.display.set_mode((x0,x0))
+            self.x0 = int(self.getMaxInitDistance())
+            self.window = pygame.display.set_mode((self.x0,self.x0))
             for part in self.particleList:
                 pos = part.position
-                pygame.draw.circle(self.window,part.getParticleColor(),(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
+                pygame.draw.circle(self.window,part.getParticleColor(),(self.x0/2 + pos.x/3,self.x0/2 + pos.y/3),2)
             pygame.display.update()
             pygame.time.delay(100)
         else:
@@ -75,7 +81,7 @@ class Simulation:
             for part in self.particleList:
                 pos = part.getParticlePosition()
                 mass = part.getParticleMass()
-                pygame.draw.circle(self.window,part.getParticleColor(),(x0/2 + pos.x/3,x0/2 + pos.y/3),2)
+                pygame.draw.circle(self.window,part.getParticleColor(),(self.x0/2 + pos.x/3, self.x0/2 + pos.y/3),2)
             pygame.display.update()
             pygame.time.delay(100)
 
